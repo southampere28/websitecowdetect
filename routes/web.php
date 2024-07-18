@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\MenuController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +16,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landingpage');
 });
+
+Route::get('/menu', function() {
+    return view('menu');
+})->name('frontend.menu');
+
+Route::post('/file/upload/breed', [MenuController::class, 'store'])->name('backend.storebreed');
