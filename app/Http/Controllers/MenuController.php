@@ -36,7 +36,6 @@ class MenuController extends Controller
             ]);
     
             $image = $request->file('image');
-            // $path = $image->store('images', 'public');
     
             // send image to server flask
             $response = $this->sendImageToFlaskServer($image);
@@ -45,17 +44,17 @@ class MenuController extends Controller
                 $data = $response->json();
     
                 // save path image to database if needed
-                // $path = $image->store('images', 'public');
-                // Image::create(['path' => $path]);
-    
+                // ...
+
+                // give response success
                 return back()->with('success', 'Image uploaded and received response: ' . json_encode($data));
             } else {
+                // give response failed
                 return back()->with('error', 'Failed to send image to Flask server');
             }
         } else {
-            // return back()->with('error', 'Failed to send image to Flask server');
-            
-            // 
+            // this is logic send data to api weight detector
+            return back()->with('success', 'Weight Detector');
         }
         
     }
@@ -63,7 +62,7 @@ class MenuController extends Controller
     private function sendImageToFlaskServer($image)
     {
         // cattle breed Flask api
-        $url = 'http://192.168.1.3:8000/api/testingendpoint/upload';  // Ganti dengan URL Flask server Anda
+        $url = 'http://192.168.1.3:5000/requestget';  // URL Flask Server
 
         $imagePath = $image->getPathname();
         $imageName = $image->getClientOriginalName();
