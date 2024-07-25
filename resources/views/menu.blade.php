@@ -16,6 +16,13 @@
         border: 1px solid #ddd;
         padding: 5px;
     }
+    .result-breed {
+        width: 100%;
+        height: auto;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        padding: 5px;
+    }
 </style>
 
 </head>
@@ -64,6 +71,13 @@
         
             </div>
 
+        </div>
+        <div class="col-1">
+        </div>
+        <div class="col-3">
+            <p>Preview For Breed</p>
+            <p>result : {{ session('resultbreed', 'breed result here') }}</p> 
+            <img id="result-breed" class="result-breed" src="{{ session('image_url', 'https://via.placeholder.com/200') }}" alt="Image Preview for breed">
         </div>
     </div>
 

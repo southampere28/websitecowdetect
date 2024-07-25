@@ -42,12 +42,20 @@ class MenuController extends Controller
     
             if ($response->successful()) {
                 $data = $response->json();
-    
-                // save path image to database if needed
-                // ...
+
+                // Capture the image URL
+                $imageUrl = $data['image_url'];
+
+                // Capture result
+                $resultLabel = $data['results'];
+                $labels = array_column($resultLabel, 'label');
+                $resultStr = implode(", ", $labels);
 
                 // give response success
-                return back()->with('success', 'Image uploaded and received response: ' . json_encode($data));
+                return back()->with('success', 'Image uploaded and processed successfully')
+                ->with('image_url', $imageUrl)
+                ->with('resultbreed', $resultStr);
+
             } else {
                 // give response failed
                 return back()->with('error', 'Failed to send image to Flask server');
@@ -62,7 +70,7 @@ class MenuController extends Controller
     private function sendImageToFlaskServer($image)
     {
         // cattle breed Flask api
-        $url = 'http://192.168.1.3:5000/requestget';  // URL Flask Server
+        $url = 'http://192.168.1.3:5000/predict';  // URL Flask Server
 
         $imagePath = $image->getPathname();
         $imageName = $image->getClientOriginalName();
