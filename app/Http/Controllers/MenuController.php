@@ -62,7 +62,36 @@ class MenuController extends Controller
             }
         } else {
             // this is logic send data to api weight detector
-            return back()->with('success', 'Weight Detector');
+            
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
+    
+            $image = $request->file('image');
+    
+            // send image to server flask
+            $response = $this->sendImageToFlaskServer2($image);
+    
+            if ($response->successful()) {
+                $data = $response->json();
+
+                // Capture the image URL
+                $imageUrl = $data['image_url'];
+
+                // Capture result
+                $resultLabel = $data['results'];
+                $labels = array_column($resultLabel, 'label');
+                $resultStr = implode(", ", $labels);
+
+                // give response success
+                return back()->with('success', 'Image uploaded and processed successfully')
+                ->with('image_url2', $imageUrl)
+                ->with('resultweight', $resultStr);
+
+            } else {
+                // give response failed
+                return back()->with('error', 'Failed to send image to Flask server');
+            }
         }
         
     }
@@ -70,6 +99,19 @@ class MenuController extends Controller
     private function sendImageToFlaskServer($image)
     {
         // cattle breed Flask api
+        $url = 'http://192.168.1.3:5000/predict';  // URL Flask Server
+
+        $imagePath = $image->getPathname();
+        $imageName = $image->getClientOriginalName();
+
+        return Http::attach(
+            'image', file_get_contents($imagePath), $imageName
+        )->post($url);
+    }
+
+    private function sendImageToFlaskServer2($image)
+    {
+        // cattle weight Flask api
         $url = 'http://192.168.1.3:5000/predict';  // URL Flask Server
 
         $imagePath = $image->getPathname();

@@ -16,8 +16,8 @@
         border: 1px solid #ddd;
         padding: 5px;
     }
-    .result-breed {
-        width: 100%;
+    .result-breed, .result-weight {
+        width: auto;
         height: auto;
         margin-top: 10px;
         border: 1px solid #ddd;
@@ -75,9 +75,13 @@
         <div class="col-1">
         </div>
         <div class="col-3">
-            <p>Preview For Breed</p>
-            <p>result : {{ session('resultbreed', 'breed result here') }}</p> 
-            <img id="result-breed" class="result-breed" src="{{ session('image_url', 'https://via.placeholder.com/200') }}" alt="Image Preview for breed">
+            <p>Preview For Cattle Breed</p>
+            <p>result : {{ session('resultbreed', '(None)') }}</p> 
+            <img id="result-breed" class="result-breed" src="{{ session('image_url', 'https://via.placeholder.com/200') }}" alt="Image Preview">
+            <hr>
+            <p>Preview For Cattle Weight</p>
+            <p>result : {{ session('resultweight', '(None)') }}</p>
+            <img id="result-weight" class="result-weight" src="{{ session('image_url2', 'https://via.placeholder.com/200') }}" alt="Image Preview">
         </div>
     </div>
 
