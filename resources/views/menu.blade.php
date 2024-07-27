@@ -80,6 +80,7 @@
             <img id="result-breed" class="result-breed" src="{{ session('image_url', 'https://via.placeholder.com/200') }}" alt="Image Preview">
             <hr>
             <p>Preview For Cattle Weight</p>
+            <p>total_weight : {{ session('totalweight', '0') }}</p>
             <p>result : {{ session('resultweight', '(None)') }}</p>
             <img id="result-weight" class="result-weight" src="{{ session('image_url2', 'https://via.placeholder.com/200') }}" alt="Image Preview">
         </div>

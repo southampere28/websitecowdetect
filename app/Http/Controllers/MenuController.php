@@ -79,14 +79,25 @@ class MenuController extends Controller
                 $imageUrl = $data['image_url'];
 
                 // Capture result
+                // Capture result weights and class names
                 $resultLabel = $data['results'];
-                $labels = array_column($resultLabel, 'label');
-                $resultStr = implode(", ", $labels);
+
+                // Create a string of labels and weights for display
+                $resultStr = [];
+                foreach ($resultLabel as $result) {
+                    $resultStr[] = $result['label'] . ': ' . number_format($result['weight'], 2) . ' kg';
+                }
+                $resultStr = implode(", ", $resultStr);
+
+                $dataWeight = $data['total_weight'];
+                $formattedNumber = number_format($dataWeight, 2);
+                $totalWeight = $formattedNumber . ' KG';
 
                 // give response success
                 return back()->with('success', 'Image uploaded and processed successfully')
                 ->with('image_url2', $imageUrl)
-                ->with('resultweight', $resultStr);
+                ->with('resultweight', $resultStr)
+                ->with('totalweight', $totalWeight);
 
             } else {
                 // give response failed
